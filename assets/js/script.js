@@ -13,22 +13,23 @@ $(function () {
 var saveBtn = $('.saveBtn');
 var eventInput;
 var hourBlock;
-var hourEvent;
+// var hourEvent;
 // var newEvent = {};
 
 function saveEvent() {
-  eventInput = $("description").val();
+  eventInput = $('description').val();
   //check for saved events in local storage
   //if there is a key name of same hour block, the value is overwritten
   //if event has text inside it, the information is saved to localstorage
   if (eventInput.value !== null) {
-    hourEvent = eventInput.prev().text();
+    hourBlock = eventInput.prev().text();
     // hourBlock = eventInput.parent(".time-block");
-    // newEvent = {hourBlock: eventInput};
+    newEvent = {hourBlock: eventInput};
 
-    localStorage.setItem(hourEvent, "eventInput");
-    //localStorage.setItem("events", JSON.stringify(newEvent));
-     
+    localStorage.setItem(hourBlock, 'eventInput');
+    localStorage.setItem('events', JSON.stringify(newEvent));
+     console.log(hourBlock);
+     console.table(newEvent);
   } else {
     return;
   }
@@ -44,24 +45,24 @@ saveBtn.on('click', saveEvent);
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   //
-  var currentHour = dayjs(clock).format("HH");
+  var currentHour = dayjs(clock).format('HH');
   var allTimeBlock = $('.time-block');
 console.log(currentHour);
 console.log(allTimeBlock);
     // var timeBlockId = allTimeBlock.attr('id');
     // console.log(timeBlockId);
   function tickTock() {
-    var allTimeId = $.each(allTimeBlock, function (i, val) { 
-       $('#' + val - 'hour-');
+    var allTimeId = $.each(allTimeBlock, function (_i, val) {  
+      $('#' + val - 'hour-');
     });       
-    console.log(allTimeId);
+    console.table(allTimeId);
 
 for (let i = 0; i < allTimeId.length; i++) {
     const timeBlock = allTimeBlock[i];
     // for loop checks if the current hour value (number) in the SAME place in the array index as time block 
      if (currentHour > allTimeId[i] && timeBlock.hasClass(present) === true) {
         timeBlock.toggleClass(present, past);
-    } else if (currentHour == allTimeId[i] && timeBlock.hasClass(future)=== true) {
+    } else if (currentHour === allTimeId[i] && timeBlock.hasClass(future)=== true) {
           timeBlock.toggleClass(future, present);
     } else if(currentHour < allTimeId[i] && timeBlock.hasClass(past) === true) {
         timeBlock.toggleClass(past, future);
@@ -70,21 +71,38 @@ for (let i = 0; i < allTimeId.length; i++) {
       } 
     }
   };
+
 setInterval(tickTock, 900000);
   
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
-
+function loadEvents() {
+  var savedEvents = localStorage.getItem(JSON.parse('events'));
+  if (savedEvents.val() == true) {
+    for (const key in savedEvents) {
+      if (Object.hasOwnProperty.call(savedEvents, key)) {
+        const eventTime = savedEvents[key];
+        var eventTimeId = ('#hour-' + eventTime.val());
+        hourBlock = 
+        
+        if (eventTimeId == allTimeBlock.$('#')) {
+          
+        } else {
+          
+        }
+      }
+    }
+}
 
   // TODO: Add code to display the current date in the header of the page.
   var date = $('#currentDay');
-  var clock =$("#clock");
+  var clock =$('#clock');
   
   function dateNtime() {
     var today = dayjs().format('[Today is] dddd, MMM D, YYYY');
-    var time = dayjs().format("hh:mm:ss a");
+    var time = dayjs().format('hh:mm:ss a');
     
     date.text(today);
     clock.text(time);
