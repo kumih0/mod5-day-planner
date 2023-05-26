@@ -37,8 +37,6 @@ function saveEvent() {
 saveBtn.on('click', saveEvent);
 
 
-
-
   //
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
@@ -46,6 +44,31 @@ saveBtn.on('click', saveEvent);
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
   //
+  var currentHour = dayjs(clock).format("HH");
+  var allTimeBlock = $('.time-block');
+console.log(currentHour);
+console.log(allTimeBlock);
+    // var timeBlockId = allTimeBlock.attr('id');
+    // console.log(timeBlockId);
+  function tickTock(event) {
+    var allTimeId = $.each(allTimeBlock, function (i, val) { 
+       $('#' + val - 'hour-');
+    });       
+    console.log(allTimeId);
+for (let i = 0; i < allTimeId.length; i++) {
+    const timeBlock = allTimeBlock[i];
+    
+     if (currentHour > allTimeId[i] && timeBlock.hasClass(present) === true) {
+        timeBlock.toggleClass(present, past);
+    } else if (currentHour == allTimeId[i] && timeBlock.hasClass(future)=== true) {
+          timeBlock.toggleClass(future, present);
+    } else if(currentHour < allTimeId[i] && timeBlock.hasClass(past) === true) {
+        timeBlock.toggleClass(past, future);
+    } else if (currentHour< allTimeId[i] && timeBlock.hasClass(future) !== true){
+        timeBlock.addClass(future);
+      } 
+    }
+  };
 
   
   // TODO: Add code to get any user input that was saved in localStorage and set
