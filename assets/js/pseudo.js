@@ -10,3 +10,18 @@
 
 //Call on timer function to begin application. 
  
+// //
+
+// //  function checkTime() {
+//     for (i = 9; i < 18; i++) {
+//         var hour = $('#0' + i);
+//         console.log(hour);
+//         if ($(hour) === currentTime) {
+//           hour.addClass('present');
+//         } else if ($(hour) < currentTime) {
+//           hour.addClass('past');
+//         } else { ($(hour) > currentTime);
+//           hour.addClass('future');
+//       }
+       
+//     }
