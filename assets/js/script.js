@@ -79,18 +79,21 @@ setInterval(tickTock, 900000);
   // attribute of each time-block be used to do this?
   //
 function loadEvents() {
+  //generates the saved stringified events from local storage as an obj with json
   var savedEvents = localStorage.getItem(JSON.parse('events'));
+  // if there is a value in localstorage for 'events'/savedevents obj, will look for all key names of the obj's key-value pairs and return a new array of those key names as eventTime
   if (savedEvents.val() == true) {
     for (const key in savedEvents) {
       if (Object.hasOwnProperty.call(savedEvents, key)) {
         const eventTime = savedEvents[key];
+        //creates anOTHER array omfg yikes, by taking the key name values (they're all numbers) and attaching the id tag and the string text hour- in front of it so they match the html id names
         var eventTimeId = ('#hour-' + eventTime.val());
-        hourBlock = 
+        //using my empty eventinput var that i declared earlier in global scope to help make things less messy rip. this is working inside this nested if statement inside the for loop
+        // hourBlock = $
         
+        eventInput =  $('.description');
         if (eventTimeId == allTimeBlock.$('#')) {
-          
-        } else {
-          
+         eventInput.append(); 
         }
       }
     }
