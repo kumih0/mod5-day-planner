@@ -11,7 +11,7 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
 var saveBtn = $('.saveBtn');
-var eventInput = $('.description').val();
+// var eventInput = $('.description').val();
 
 
 
@@ -28,11 +28,18 @@ var eventInput = $('.description').val();
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-  var today = dayjs().format('[Today is] dddd, MMM D, YYYY');
-  var date = $('#currentDay').text(today);
+  var date = $('#currentDay');
+  var clock =$("#clock");
   
-
-  console.log(date);
+  function dateNtime() {
+    var today = dayjs().format('[Today is] dddd, MMM D, YYYY');
+    var time = dayjs().format("hh:mm:ss a");
+    
+    date.text(today);
+    clock.text(time);
+  };
+dateNtime();
+setInterval(dateNtime, 1000);
 
 
 });
