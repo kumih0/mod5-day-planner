@@ -50,14 +50,15 @@ console.log(currentHour);
 console.log(allTimeBlock);
     // var timeBlockId = allTimeBlock.attr('id');
     // console.log(timeBlockId);
-  function tickTock(event) {
+  function tickTock() {
     var allTimeId = $.each(allTimeBlock, function (i, val) { 
        $('#' + val - 'hour-');
     });       
     console.log(allTimeId);
+
 for (let i = 0; i < allTimeId.length; i++) {
     const timeBlock = allTimeBlock[i];
-    
+    // for loop checks if the current hour value (number) in the SAME place in the array index as time block 
      if (currentHour > allTimeId[i] && timeBlock.hasClass(present) === true) {
         timeBlock.toggleClass(present, past);
     } else if (currentHour == allTimeId[i] && timeBlock.hasClass(future)=== true) {
@@ -69,7 +70,7 @@ for (let i = 0; i < allTimeId.length; i++) {
       } 
     }
   };
-
+setInterval(tickTock, 900000);
   
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
