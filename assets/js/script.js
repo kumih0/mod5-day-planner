@@ -13,18 +13,28 @@ $(function () {
 var saveBtn = $('.saveBtn');
 var eventInput;
 var hourBlock;
+var hourEvent;
+// var newEvent = {};
 
 function saveEvent() {
   eventInput = $("description").val();
-  
-  if (eventInput.value !== 0) {
-    hourBlock = eventInput.prev().
+  //check for saved events in local storage
+  //if there is a key name of same hour block, the value is overwritten
+  //if event has text inside it, the information is saved to localstorage
+  if (eventInput.value !== null) {
+    hourEvent = eventInput.prev().text();
+    // hourBlock = eventInput.parent(".time-block");
+    // newEvent = {hourBlock: eventInput};
+
+    localStorage.setItem(hourEvent, "eventInput");
+    //localStorage.setItem("events", JSON.stringify(newEvent));
+     
   } else {
     return;
   }
 
-}
-// var eventInput = $('.description').val();
+};
+saveBtn.on('click', saveEvent);
 
 
 
