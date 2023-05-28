@@ -11,13 +11,12 @@ $(function () {
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
 var saveBtn = $('.saveBtn');
-var eventInput;
+var eventInput = $('description').val();
 var hourBlock;
 // var hourEvent;
 // var newEvent = {};
 
 function saveEvent() {
-  eventInput = $('description').val();
   //check for saved events in local storage
   //if there is a key name of same hour block, the value is overwritten
   //if event has text inside it, the information is saved to localstorage
@@ -84,13 +83,20 @@ function loadEvents() {
   // if there is a value in localstorage for 'events'/savedevents obj, will look for all key names of the obj's key-value pairs and return a new array of those key names as eventTime
   if (savedEvents.val() == true) {
     $.each(savedEvents, function (key, val) { 
+      var key = Object.keys(val)[0];
+      var eventSaved = val[key];
        var eventTime = $('#hour-' + key);
-       var eventSaved = $('.description').text()
+
+      //  var eventSaved = $('.description').text(val);
+       if (allTimeBlock.$(eventTime) === true) {
+        hourBlock = $(allTimeBlock.eventTime);
+        hourBlock.eventInput.text() = eventSaved.val();
+       }
     });
     // for (const key in savedEvents) {
     //   if (Object.hasOwnProperty.call(savedEvents, key)) {
     //     const eventTime = savedEvents[key];
-
+    
 
         
         //creates anOTHER array omfg yikes, by taking the key name values (they're all numbers) and attaching the id tag and the string text hour- in front of it so they match the html id names
