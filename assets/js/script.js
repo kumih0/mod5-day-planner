@@ -20,7 +20,7 @@ function saveEvent() {
   //check for saved events in local storage
   //if there is a key name of same hour block, the value is overwritten
   //if event has text inside it, the information is saved to localstorage
-  if (eventInput.value !== null) {
+  if (eventInput.val() !== null) {
     hourBlock = eventInput.prev().text();
     // hourBlock = eventInput.parent(".time-block");
     newEvent = {hourBlock: eventInput};
@@ -54,24 +54,25 @@ console.log(allTimeBlock);
     var allTimeId = $.each(allTimeBlock, function (_i, val) {  
       $('#' + val - 'hour-');
     });       
-    console.table(allTimeId);
+    console.log(allTimeId);
 
 for (let i = 0; i < allTimeId.length; i++) {
     const timeBlock = allTimeBlock[i];
+    console.log(allTimeBlock[i]);
     // for loop checks if the current hour value (number) in the SAME place in the array index as time block 
-     if (currentHour > allTimeId[i] && timeBlock.hasClass(present) === true) {
-        timeBlock.toggleClass(present, past);
-    } else if (currentHour === allTimeId[i] && timeBlock.hasClass(future)=== true) {
-          timeBlock.toggleClass(future, present);
-    } else if(currentHour < allTimeId[i] && timeBlock.hasClass(past) === true) {
-        timeBlock.toggleClass(past, future);
-    } else if (currentHour< allTimeId[i] && timeBlock.hasClass(future) !== true){
+     if (currentHour > allTimeId[i] && $(timeBlock).hasClass('present')) {
+        $(timeBlock).removeClass().addClass('past');
+    } else if (currentHour === allTimeId[i] && $(timeBlock).hasClass('future')) {
+          $(timeBlock).removeClass('future').addClass('present');
+    } else if(currentHour < allTimeId[i] && $(timeBlock).hasClass('past')) {
+        timeBlock.removeClass('past').addClass('future');
+    } else if (currentHour < allTimeId[i]){
         timeBlock.addClass(future);
       } 
     }
   };
 
-setInterval(tickTock, 900000);
+setInterval(tickTock, 10000);
   
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
@@ -80,38 +81,25 @@ setInterval(tickTock, 900000);
 function loadEvents() {
   //generates the saved stringified events from local storage as an obj with json
   var savedEvents = localStorage.getItem(JSON.parse('events'));
-  // if there is a value in localstorage for 'events'/savedevents obj, will look for all key names of the obj's key-value pairs and return a new array of those key names as eventTime
+  // if there is a value in localstorage for 'events'/savedevents obj, will look for all key names of the obj's key-value pairs and return a new array of those key names as eventTime and array of values as eventSaved
   if (savedEvents.val() == true) {
+    // /takes the key name values (they're all numbers) and attaching the id tag and the string text hour- in front of it so they match the html id names
+
     $.each(savedEvents, function (key, val) { 
       var key = Object.keys(val)[0];
-      var eventSaved = val[key];
+      var eventSaved = val[key].val();
        var eventTime = $('#hour-' + key);
 
-      //  var eventSaved = $('.description').text(val);
+      //  if the localstorage key name for the hour block exists and matches a HTML ID tag, then the saved event will be displayed in the text box for that given hour block
        if (allTimeBlock.$(eventTime) === true) {
         hourBlock = $(allTimeBlock.eventTime);
         hourBlock.eventInput.text() = eventSaved.val();
-       }
+       } else
+       return false;
     });
-    // for (const key in savedEvents) {
-    //   if (Object.hasOwnProperty.call(savedEvents, key)) {
-    //     const eventTime = savedEvents[key];
-    
-
-        
-        //creates anOTHER array omfg yikes, by taking the key name values (they're all numbers) and attaching the id tag and the string text hour- in front of it so they match the html id names
-        var eventTimeId = ('#hour-' + eventTime.val());
-        var eventSaved = 
-        //using my empty eventinput var that i declared earlier in global scope to help make things less messy rip. this is working inside this nested if statement inside the for loop
-        // hourBlock = $
-
-        eventInput =  $('.description');
-        if (eventTimeId == allTimeBlock.$('#')) {
-         eventInput.text(); 
         }
-      }
-    }
-}
+      };
+
 
   // TODO: Add code to display the current date in the header of the page.
   var date = $('#currentDay');
