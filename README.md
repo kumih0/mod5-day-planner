@@ -30,4 +30,15 @@ THEN the saved events persist
 ## Description
 
 - This is a simple calendar application that allows a user to save events for each hour of the day.
+- Text input is saved to local storage
+- Delete button clears the local storage data and text input
+- Current date and time displayed at top
+- Using dayjs, references the current time to update the color of timeblocks
 
+# Github Repo
+
+https://github.com/kumih0/mod5-day-planner
+
+# Live Link 
+
+https://kumih0.github.io/mod5-day-planner/
