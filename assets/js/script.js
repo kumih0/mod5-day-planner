@@ -2,105 +2,59 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 $(function () {
-  console.log("ready");
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-
+  // Get the current hour using dayjs
+  var today = dayjs();
   var saveBtn = $('.saveBtn');
-  var eventInput = $('.description').val();
-  var hourBlock;
- 
-  function saveEvent() {
-    //if event has text inside it, the information is saved to localstorage
-    if(eventInput.val() !== null){
-      hourBlock = eventInput.prev().text();
-      localStorage.setItem(hourBlock, eventInput.val());
-    } else {
-      return;
-    }
-  };
-  saveBtn.on('click', saveEvent);
-
-
-  //
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  //
-  var currentHour = dayjs(clock).format('HH');
-  var allTimeBlock = $('.time-block');
-  console.log(currentHour);
-  console.log(allTimeBlock);
- 
-  function tickTock() {
-    var allTimeId = $.each(allTimeBlock, function (_i, val) {
-      $('#' + val - 'hour-');
-    });
-    console.log(allTimeId);
-
-    for (let i = 0; i < allTimeId.length; i++) {
-      const timeBlock = allTimeBlock[i];
-      console.log(allTimeBlock[i]);
-      // for loop checks if the current hour value (number) in the SAME place in the array index as time block 
-      if (currentHour > allTimeId[i] && $(timeBlock).hasClass('present')) {
-        $(timeBlock).removeClass().addClass('past');
-      } else if (currentHour === allTimeId[i] && $(timeBlock).hasClass('future')) {
-        $(timeBlock).removeClass('future').addClass('present');
-      } else if (currentHour < allTimeId[i] && $(timeBlock).hasClass('past')) {
-        timeBlock.removeClass('past').addClass('future');
-      } else if (currentHour < allTimeId[i]) {
-        timeBlock.addClass(future);
-      }
-    }
-  };
-
-  setInterval(tickTock, 10000);
-
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-
-  function loadEvents() {
-    //generates the saved stringified events from local storage as an obj with json
-    var savedEvents = localStorage.getItem(JSON.parse('events'));
-    // if there is a value in localstorage for 'events'/savedevents obj, will look for all key names of the obj's key-value pairs and return a new array of those key names as eventTime and array of values as eventSaved
-    if (savedEvents.val() == true) {
-      // /takes the key name values (they're all numbers) and attaching the id tag and the string text hour- in front of it so they match the html id names
-
-      $.each(savedEvents, function (key, val) {
-        var key = Object.keys(val)[0];
-        var eventSaved = val[key].val();
-        var eventTime = $('#hour-' + key);
-
-        //  if the localstorage key name for the hour block exists and matches a HTML ID tag, then the saved event will be displayed in the text box for that given hour block
-        if (allTimeBlock.$(eventTime) === true) {
-          hourBlock = $(allTimeBlock.eventTime);
-          hourBlock.eventInput.text() = eventSaved.val();
-        } else
-          return false;
-      });
-    }
-  };
-  loadEvents();
-
-
-  // TODO: Add code to display the current date in the header of the page.
-  var date = $('#currentDay');
-  var clock = $('#clock');
+  var hourBlock = document.querySelectorAll('.time-block');
 
   function dateNtime() {
-    var today = dayjs().format('[Today is] dddd, MMM D, YYYY');
-    var time = dayjs().format('hh:mm:ss a');
-
-    date.text(today);
-    clock.text(time);
+    var today = dayjs();
+    $("#currentDay").text(today.format("dddd, MMMM D, YYYY, h:mm:ss A"));
   };
   dateNtime();
   setInterval(dateNtime, 1000);
+
+  // Function to check the time and add the correct class to each hour block
+  function tickTock() {
+    // Load data from local storage and add to the correct hour block
+    for (var i = 0; i < localStorage.length; i++) {
+      var loadEvents = localStorage.key(i);
+      $("#" + loadEvents).children(".description").val(localStorage.getItem(loadEvents));
+    };
+
+    for (var i = 0; i < hourBlock.length; i++) {
+      var hourId = $(hourBlock[i]).attr("id");
+      hourId = hourId.split("-")[1];
+      console.log(hourId);
+
+      if (today.hour() > hourId) {
+        // Add 'past' class for time blocks in the past
+        $(hourBlock[i]).children(".description").addClass("past");
+      }
+
+      // Add 'present' class for the current time block
+      else if (today.hour() == hourId) {
+        $(hourBlock[i]).children(".description").addClass("present");
+      }
+
+      // Add 'future' class for time blocks in the future
+      else if (today.hour() < hourId) {
+        $(hourBlock[i]).children(".description").addClass("future");
+      }
+    }
+  }
+  setInterval(tickTock, 10000);
+
+  saveBtn.on("click", function () {
+    var text = $(this).siblings(".description").val();
+    var time = $(this).parent().attr("id");
+  
+    localStorage.setItem(time, text);
+  });
+
+  // Clear local storage
+$("#clearStorageBtn").on("click", function () {
+  localStorage.clear();
+});
+
 });
